@@ -3,6 +3,8 @@ using MementoApi.Infra.TratamentoDeErro;
 using MementoBd.Mapeamentos;
 using MementoBd.Entidades;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace MementoBd
 {
@@ -39,6 +41,7 @@ O sistema deve permitir a filtragem de tarefas por status (pendente, concluída)
 
         public ContextoBd()
         {
+            //var teste = configuracao.GetConnectionString("MementoBdStringConnection");
             _connectionString = "SERVER=localhost\\SQLEXPRESS;UID=memento_user;PWD=123@abc;DATABASE=MementoBd";
         }
 
@@ -63,7 +66,7 @@ O sistema deve permitir a filtragem de tarefas por status (pendente, concluída)
             catch (Exception ex)
             {
                 throw new ContextoExcecao("Erro ao conectar com o banco de dados: " + ex.Message
-                    + "\n Inner Ex: "+ ex?.InnerException?.Message);
+                    + "\n. Inner Ex: "+ ex?.InnerException?.Message);
             }
         }
 

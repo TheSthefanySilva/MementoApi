@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MementoBd.Migrations
 {
     [DbContext(typeof(ContextoBd))]
-    [Migration("20250214030422_MigracaoInicial")]
+    [Migration("20250215170848_MigracaoInicial")]
     partial class MigracaoInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

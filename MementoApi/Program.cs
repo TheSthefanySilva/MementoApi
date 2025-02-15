@@ -1,5 +1,7 @@
 
 
+using MementoBd;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,9 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //todo: melhoria, utilizar addScoped pro contexto e usar appsettings pra string
-//builder.Services.AddScoped(x => new ContextoBd());
+//builder.Services.AddScoped(x => new ContextoBd(builder.Configuration.GetConnect////ionString("")));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

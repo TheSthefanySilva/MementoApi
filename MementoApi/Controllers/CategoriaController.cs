@@ -12,7 +12,6 @@ namespace MementoApi.Controllers
         [HttpGet]
         public ActionResult<List<string>> ListarCategorias()
         {
-            
             var categoriaManipulador = new CategoriaManipulador();
             return categoriaManipulador.ListarCategorias();
         }
