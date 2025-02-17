@@ -36,11 +36,6 @@ namespace MementoBd.Mapeamentos
                .WithMany(tabelaPrincipal => tabelaPrincipal.Categorias)
                .HasForeignKey(tabelaRelacionamento => tabelaRelacionamento.UsuarioId)
                .OnDelete(DeleteBehavior.Restrict);
-
-            // https://cursos.alura.com.br/forum/topico-erro-may-cause-cycles-or-multiple-cascade-paths-194294
-            // https://stackoverflow.com/questions/63306882/specify-on-delete-no-action-or-on-update-no-action-or-modify-other-foreign-key
-
-
         }
     }
 }

@@ -2,23 +2,22 @@
 
 using MementoBd;
 using MementoBd.Entidades;
-using MementoDominio.Comandos;
-using MementoDominio.Comandos.Categoria;
+using MementoDominio.Comandos.Lista;
 using MementoDominio.TratamentoDeErro;
 
 namespace MementoDominio.Manipuladores
 {
-    public class CategoriaManipulador 
+    public class ListaManipulador 
     {
         public ContextoBd contexto { get; set; }
-        public CategoriaManipulador(ContextoBd contextoBd)
+        public ListaManipulador(ContextoBd contextoBd)
         {
             this.contexto = contextoBd;
         }
 
-        public List<CategoriaListarComandoSaida> Listar()
+        public List<ListaListarComandoSaida> Listar()
         {
-            return contexto.Categoria.Select(x => new CategoriaListarComandoSaida()
+            return contexto.Lista.Select(x => new ListaListarComandoSaida()
             {
                 Id = x.Id,
                 Nome = x.Nome,
@@ -28,17 +27,17 @@ namespace MementoDominio.Manipuladores
             }).ToList();
         }
 
-        public void Incluir(CategoriaCadastroComandoEntrada dados)
+        public void Incluir(ListaCadastroComandoEntrada dados)
         {
-            var novoItem = new CategoriaEntidade();
+            var novoItem = new ListaEntidade();
             PreencherItem(novoItem, dados);
             contexto.Add(novoItem);
             contexto.SaveChanges();
         }
 
-        public void Alterar(int id, CategoriaCadastroComandoEntrada dados)
+        public void Alterar(int id, ListaCadastroComandoEntrada dados)
         {
-            var item = contexto.Categoria.FirstOrDefault(x => x.Id == id);
+            var item = contexto.Lista.FirstOrDefault(x => x.Id == id);
             if (item == null)
                 throw new DominioExcecao("Categoria não encontrada");
 
@@ -46,7 +45,7 @@ namespace MementoDominio.Manipuladores
             contexto.SaveChanges();
         }
 
-        private void PreencherItem(CategoriaEntidade entidade, CategoriaCadastroComandoEntrada dados)
+        private void PreencherItem(ListaEntidade entidade, ListaCadastroComandoEntrada dados)
         {
             entidade.Nome = dados.Nome;
             entidade.Descricao = dados.Descricao;

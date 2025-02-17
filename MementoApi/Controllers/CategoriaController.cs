@@ -1,5 +1,6 @@
-﻿using MementoDominio.Manipuladores;
-using Microsoft.AspNetCore.Http;
+﻿using MementoDominio.Comandos;
+using MementoDominio.Comandos.Categoria;
+using MementoDominio.Manipuladores;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MementoApi.Controllers
@@ -8,13 +9,30 @@ namespace MementoApi.Controllers
     [Route("[controller]")]
     public class CategoriaController : Controller
     {
-        // GET: CategoriaController
-        [HttpGet]
-        public ActionResult<List<string>> ListarCategorias()
+        public CategoriaManipulador categoriaManipulador { get; set; }
+        public CategoriaController(CategoriaManipulador categoriaManipulador)
         {
-            var categoriaManipulador = new CategoriaManipulador();
-            return categoriaManipulador.ListarCategorias();
+            this.categoriaManipulador = categoriaManipulador;
         }
 
+        [HttpGet]
+        public ActionResult<List<CategoriaListarComandoSaida>> Listar()
+        {
+            return categoriaManipulador.Listar();
+        }
+
+        [HttpPost]
+        public ActionResult Incluir([FromBody] CategoriaCadastroComandoEntrada dados)
+        {
+            categoriaManipulador.Incluir(dados);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Alterar(int id, [FromBody] CategoriaCadastroComandoEntrada dados)
+        {
+            categoriaManipulador.Alterar(id, dados);
+            return Ok();
+        }
     }
 }

@@ -41,7 +41,6 @@ O sistema deve permitir a filtragem de tarefas por status (pendente, concluída)
 
         public ContextoBd()
         {
-            //var teste = configuracao.GetConnectionString("MementoBdStringConnection");
             _connectionString = "SERVER=localhost\\SQLEXPRESS;UID=memento_user;PWD=123@abc;DATABASE=MementoBd";
         }
 
@@ -53,7 +52,6 @@ O sistema deve permitir a filtragem de tarefas por status (pendente, concluída)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsuarioMapeamento).Assembly);
-            
         }
 
         public void TestarConexao()
