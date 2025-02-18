@@ -15,7 +15,7 @@ namespace MementoBd.Mapeamentos
         {
             builder.Property(x => x.Titulo)
               .IsRequired()
-              .HasColumnName("Nome")
+              .HasColumnName("Titulo")
               .HasColumnType("Varchar")
               .HasMaxLength(150);
 
@@ -25,7 +25,7 @@ namespace MementoBd.Mapeamentos
               .HasMaxLength(500);
 
             builder.Property(x => x.Status)
-              .HasColumnName("Nome")
+              .HasColumnName("Status")
               .HasColumnType("Varchar")
               .HasMaxLength(150);
 
@@ -35,17 +35,17 @@ namespace MementoBd.Mapeamentos
 
             builder.Property(x => x.ListaId)
               .IsRequired()
-              .HasColumnName("UsuarioId")
+              .HasColumnName("ListaId")
               .HasColumnType("Int");
 
             builder.Property(x => x.CategoriaId)
               .IsRequired()
-              .HasColumnName("UsuarioId")
+              .HasColumnName("CategoriaId")
               .HasColumnType("Int");
 
             builder.Property(x => x.Prioridade)
               .IsRequired()
-              .HasColumnName("UsuarioId")
+              .HasColumnName("Prioridade")
               .HasColumnType("Int");
 
             builder.HasOne(x => x.Lista)

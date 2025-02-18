@@ -1,11 +1,14 @@
-﻿using MementoDominio.Comandos.Tarefa;
+﻿using MementoApi.Utilitarios;
+using MementoDominio.Comandos.Tarefa;
 using MementoDominio.Manipuladores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MementoApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class TarefaController : Controller
     {
         public TarefaManipulador tarefaManipulador { get; set; }
@@ -17,7 +20,7 @@ namespace MementoApi.Controllers
         [HttpGet]
         public ActionResult<List<TarefaListarComandoSaida>> Listar()
         {
-            return tarefaManipulador.Listar();
+            return tarefaManipulador.Listar(TokenUtilitario.RetornarIdUsuario(HttpContext));
         }
 
         [HttpPost]

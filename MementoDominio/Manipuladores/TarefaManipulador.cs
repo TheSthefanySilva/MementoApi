@@ -1,9 +1,8 @@
-﻿
-
-using MementoBd;
+﻿using MementoBd;
 using MementoBd.Entidades;
 using MementoDominio.Comandos.Tarefa;
 using MementoDominio.TratamentoDeErro;
+using Microsoft.EntityFrameworkCore;
 
 namespace MementoDominio.Manipuladores
 {
@@ -15,21 +14,26 @@ namespace MementoDominio.Manipuladores
             this.contexto = contextoBd;
         }
 
-        public List<TarefaListarComandoSaida> Listar()
+        public List<TarefaListarComandoSaida> Listar(int idUsuario)
         {
-            return contexto.Tarefa.Select(x => new TarefaListarComandoSaida()
-            {
-                Id = x.Id,
-                Titulo = x.Titulo,
-                Descricao = x.Descricao,
-                Prioridade = x.Prioridade,
-                Status = x.Status,
-                DataLimite = x.DataLimite,
-                ListaId = x.ListaId,
-                CategoriaId = x.CategoriaId,
-                Inativo = x.Inativo,
-                DataCriacao = x.CriadoEm
-            }).ToList();
+            return contexto.Tarefa
+                .Include(x => x.Lista)
+                .Where(x => x.Lista.UsuarioId == idUsuario)
+                .OrderBy(x => x.Prioridade)
+                .Select(x => new TarefaListarComandoSaida()
+                {
+                    Id = x.Id,
+                    Titulo = x.Titulo,
+                    Descricao = x.Descricao,
+                    Prioridade = x.Prioridade,
+                    Status = x.Status,
+                    DataLimite = x.DataLimite,
+                    ListaId = x.ListaId,
+                    CategoriaId = x.CategoriaId,
+                    Inativo = x.Inativo,
+                    DataCriacao = x.CriadoEm
+                })
+                .ToList();
         }
 
         public void Incluir(TarefaCadastroComandoEntrada dados)

@@ -16,42 +16,45 @@ namespace MementoDominio.Manipuladores
             this.contexto = contextoBd;
         }
 
-        public List<CategoriaListarComandoSaida> Listar()
+        public List<CategoriaListarComandoSaida> Listar(int idUsuario)
         {
-            return contexto.Categoria.Select(x => new CategoriaListarComandoSaida()
-            {
-                Id = x.Id,
-                Nome = x.Nome,
-                Descricao = x.Descricao,
-                Inativo = x.Inativo,
-                DataCriacao = x.CriadoEm
-            }).ToList();
+            return contexto.Categoria
+                .Where(x => x.UsuarioId == idUsuario)
+                .Select(x => new CategoriaListarComandoSaida()
+                {
+                    Id = x.Id,
+                    Nome = x.Nome,
+                    Descricao = x.Descricao,
+                    Inativo = x.Inativo,
+                    DataCriacao = x.CriadoEm
+                })
+                .ToList();
         }
 
-        public void Incluir(CategoriaCadastroComandoEntrada dados)
+        public void Incluir(CategoriaCadastroComandoEntrada dados, int idUsuario)
         {
             var novoItem = new CategoriaEntidade();
-            PreencherItem(novoItem, dados);
+            PreencherItem(novoItem, dados, idUsuario);
             contexto.Add(novoItem);
             contexto.SaveChanges();
         }
 
-        public void Alterar(int id, CategoriaCadastroComandoEntrada dados)
+        public void Alterar(int id, CategoriaCadastroComandoEntrada dados, int idUsuario)
         {
             var item = contexto.Categoria.FirstOrDefault(x => x.Id == id);
             if (item == null)
                 throw new DominioExcecao("Categoria não encontrada");
 
-            PreencherItem(item, dados);
+            PreencherItem(item, dados, idUsuario);
             contexto.SaveChanges();
         }
 
-        private void PreencherItem(CategoriaEntidade entidade, CategoriaCadastroComandoEntrada dados)
+        private void PreencherItem(CategoriaEntidade entidade, CategoriaCadastroComandoEntrada dados, int idUsuario)
         {
             entidade.Nome = dados.Nome;
             entidade.Descricao = dados.Descricao;
             entidade.Inativo = dados.Inativo;
-            entidade.UsuarioId = 1;
+            entidade.UsuarioId = idUsuario;
             
             if (entidade.Id > 0)
                 entidade.AtualizadoEm = DateTime.Now;

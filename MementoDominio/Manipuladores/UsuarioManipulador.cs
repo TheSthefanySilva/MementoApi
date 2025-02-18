@@ -15,11 +15,25 @@ namespace MementoDominio.Manipuladores
             this.contexto = contextoBd;
         }
 
+        public UsuarioLogadoComandoSaida Obter(int idUsuario)
+        {
+            var item = contexto.Usuario.FirstOrDefault(x => x.Id == idUsuario);
+            if (item == null)
+                throw new DominioExcecao("Usuário não encontrado");
+
+            return new UsuarioLogadoComandoSaida()
+            {
+                Id = item.Id,
+                Nome = item.Nome,
+                Email = item.Email,
+                Senha = item.Senha,
+                Inativo = item.Inativo,
+                DataCriacao = item.CriadoEm,
+            };
+        }
+
         public void Incluir(UsuarioCadastroComandoEntrada dados)
         {
-            contexto.TestarConexao();
-            contexto.ExecutarMigracao();
-
             var novoItem = new UsuarioEntidade();
             PreencherItem(novoItem, dados);
             contexto.Add(novoItem);

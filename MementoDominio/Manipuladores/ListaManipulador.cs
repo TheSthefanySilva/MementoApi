@@ -15,42 +15,45 @@ namespace MementoDominio.Manipuladores
             this.contexto = contextoBd;
         }
 
-        public List<ListaListarComandoSaida> Listar()
+        public List<ListaListarComandoSaida> Listar(int idUsuario)
         {
-            return contexto.Lista.Select(x => new ListaListarComandoSaida()
-            {
-                Id = x.Id,
-                Nome = x.Nome,
-                Descricao = x.Descricao,
-                Inativo = x.Inativo,
-                DataCriacao = x.CriadoEm
-            }).ToList();
+            return contexto.Lista
+                .Where(x => x.UsuarioId == idUsuario)
+                .Select(x => new ListaListarComandoSaida()
+                {
+                    Id = x.Id,
+                    Nome = x.Nome,
+                    Descricao = x.Descricao,
+                    Inativo = x.Inativo,
+                    DataCriacao = x.CriadoEm
+                })
+                .ToList();
         }
 
-        public void Incluir(ListaCadastroComandoEntrada dados)
+        public void Incluir(ListaCadastroComandoEntrada dados, int idUsuario)
         {
             var novoItem = new ListaEntidade();
-            PreencherItem(novoItem, dados);
+            PreencherItem(novoItem, dados, idUsuario);
             contexto.Add(novoItem);
             contexto.SaveChanges();
         }
 
-        public void Alterar(int id, ListaCadastroComandoEntrada dados)
+        public void Alterar(int id, ListaCadastroComandoEntrada dados, int idUsuario)
         {
             var item = contexto.Lista.FirstOrDefault(x => x.Id == id);
             if (item == null)
                 throw new DominioExcecao("Categoria não encontrada");
 
-            PreencherItem(item, dados);
+            PreencherItem(item, dados, idUsuario);
             contexto.SaveChanges();
         }
 
-        private void PreencherItem(ListaEntidade entidade, ListaCadastroComandoEntrada dados)
+        private void PreencherItem(ListaEntidade entidade, ListaCadastroComandoEntrada dados, int idUsuario)
         {
             entidade.Nome = dados.Nome;
             entidade.Descricao = dados.Descricao;
             entidade.Inativo = dados.Inativo;
-            entidade.UsuarioId = 1;
+            entidade.UsuarioId = idUsuario;
             
             if (entidade.Id > 0)
                 entidade.AtualizadoEm = DateTime.Now;

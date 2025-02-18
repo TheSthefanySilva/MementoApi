@@ -1,12 +1,15 @@
 ﻿using MementoDominio.Comandos.Login;
 using MementoDominio.Manipuladores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MementoApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         public LoginManipulador loginManipulador { get; set; }
@@ -20,6 +23,5 @@ namespace MementoApi.Controllers
         {
             return Ok(loginManipulador.RealizarLogin(dados));   
         }
-
     }
 }

@@ -1,5 +1,7 @@
-﻿using MementoDominio.Comandos.Usuario;
+﻿using MementoApi.Utilitarios;
+using MementoDominio.Comandos.Usuario;
 using MementoDominio.Manipuladores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MementoApi.Controllers
@@ -15,6 +17,7 @@ namespace MementoApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Incluir([FromBody] UsuarioCadastroComandoEntrada dados)
         {
             usuarioManipulador.Incluir(dados);
@@ -22,10 +25,18 @@ namespace MementoApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public ActionResult Alterar(int id, [FromBody] UsuarioCadastroComandoEntrada dados)
         {
             usuarioManipulador.Alterar(id, dados);
             return Ok();
+        }
+
+        [HttpGet()]
+        [Authorize]
+        public ActionResult<UsuarioLogadoComandoSaida> ObterDadosUsuarioLogado()
+        {
+            return Ok(usuarioManipulador.Obter(TokenUtilitario.RetornarIdUsuario(HttpContext)));
         }
     }
 }
