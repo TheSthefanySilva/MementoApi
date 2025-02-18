@@ -14,6 +14,9 @@ namespace MementoApi.Utilitarios
                 int.TryParse(identity.FindFirst("IdUsuario")?.Value, out idUsuario);
             }
 
+            if (idUsuario <= 0)
+                throw new Exception("IdUsuario não foi encontrado no token");
+
             return idUsuario;
         }
     }
