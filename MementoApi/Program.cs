@@ -18,6 +18,13 @@ builder.Services.AddScoped(x => new TarefaManipulador(new ContextoBd()));
 builder.Services.AddScoped(x => new ListaManipulador(new ContextoBd()));
 builder.Services.AddScoped(x => new LoginManipulador(new ContextoBd()));
 
+builder.Services.AddCors(o => o.AddPolicy("PoliticaMemento", builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 
