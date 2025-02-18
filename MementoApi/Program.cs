@@ -27,6 +27,7 @@ builder.Services.AddCors(o => o.AddPolicy("PoliticaMemento", builder =>
 
 var app = builder.Build();
 
+app.UseCors("PoliticaMemento");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
